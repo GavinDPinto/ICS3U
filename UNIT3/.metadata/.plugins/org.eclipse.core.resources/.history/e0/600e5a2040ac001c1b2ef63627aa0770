@@ -1,0 +1,181 @@
+import java.util.Scanner;
+
+public class U4A1MyPaintStoreLoops {
+	
+	static String[] dog = {
+		 "    |\\|\\            ",
+		 "   ..    \\       .  ",
+		 " o--     \\\\    / @) ",
+		 "  v__///\\\\\\\\__/ @   ",
+		 "    {           }   ",
+		 "     {  } \\\\\\{  }   ",
+		 "     <_|      <_|   "
+		};
+	static String blankSpace = "                    ";
+	static boolean isDiamond = false;
+	
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+
+		welcome();
+		System.out.println();
+		System.out.println("Please select an option or '0' to quit.\n");
+		System.out.println("     1) Rectangle dog display");
+		System.out.println("     2) Pyramid dog display");
+		System.out.println("     3) Inverted Pyramid dog display");
+		System.out.println("     4) Diamond dog display");
+		System.out.println("     5) Signature Row Arrangement Ways\n");
+		System.out.print("Your selection: ");
+		int choice = scanner.nextInt(); 
+		int amt;
+		
+		switch (choice) {
+			case 0:
+				//quit
+				System.out.println("Goodbye!");
+				break;
+			case 1: 
+				//rectangle
+				int inputRectRows,inputRectColumns;
+				System.out.print("Enter the amount of rows: ");
+				inputRectRows = scanner.nextInt();
+				System.out.print("Enter the amount of columns: ");
+				inputRectColumns = scanner.nextInt();
+				amt = inputRectRows * inputRectColumns;
+				System.out.println("You will require " + amt + " dogs.\n");
+				rectangle(inputRectRows,inputRectColumns);
+			case 2:
+				//normal pyramid
+				int inputPyrRows;
+				System.out.print("Enter the amount of rows: ");
+				inputPyrRows = scanner.nextInt();
+				amt = inputPyrRows * inputPyrRows;
+				System.out.println("You will require " + amt + " dogs.");
+				pyramid(inputPyrRows);
+				break;
+			case 3:
+				//inverted pyramid
+				int inputPyrDownRows;
+				System.out.print("Enter the amount of rows: ");
+				inputPyrDownRows = scanner.nextInt();
+				amt = inputPyrDownRows * inputPyrDownRows;
+				System.out.println("You will require " + amt + " dogs.");
+				pyramidDown(inputPyrDownRows);
+				break;
+			case 4: 
+				//diamond
+				int inputDiaRows;
+				System.out.print("Enter the ODD amount of rows: ");
+				inputDiaRows = scanner.nextInt();
+				amt = (inputDiaRows * inputDiaRows + 1)/2; 
+				System.out.println("You will require " + amt + " dogs.");
+				diamond(inputDiaRows);
+				break;
+			case 5:
+				//signature row
+				int inputRowVal;
+				System.out.print("Enter the number of dogs: ");
+				inputRowVal = scanner.nextInt();
+				System.out.println("The dogs can be arranged " + sigRowArrWays(inputRowVal) + " ways.");
+				break;
+			default:
+				//choice not valid
+				System.out.println("Not a valid option. Goodbye!");
+		}
+	}//end main
+	
+	public static void welcome() {
+		int cnt = 0;
+		do {
+			System.out.println("     " + dog[cnt]);
+			cnt++;
+		}while (cnt < dog.length);
+		System.out.println("\n     Welcome to DogStax!");
+	}//end welcome
+	
+	
+	public static void rectangle(int rows, int columns) {
+		
+	    for (int i = 0; i < rows; i++) {
+	    	for (int j = 0; j < dog.length; j++) {
+				for (int k = 0; k < columns; k++) {
+					System.out.print(dog[j]);
+				}
+				System.out.println();
+	    	}
+			System.out.println();
+	    }
+	}//end rectangle
+	
+	
+	public static void pyramid(int rows) {
+		int largestRowValue = rows * 2 - 1;
+		int currentRowValue;
+		int blankSpaceCheck;
+		for (int i = 1; i <= rows; i++) {
+			currentRowValue = i * 2 - 1;
+			blankSpaceCheck = (largestRowValue - currentRowValue)/2;
+			for (int j = 0; j < dog.length; j++) {
+				for (int k = 1; k <= largestRowValue; k++) {
+					if (k <= blankSpaceCheck || k > largestRowValue - blankSpaceCheck) {
+						System.out.print(blankSpace);
+					}else {
+						System.out.print(dog[j]);
+					}
+				}
+				System.out.println();
+			}
+			System.out.println();
+		}
+	}//end pyramid
+
+	
+	public static void pyramidDown(int rows) {
+		int largestRowValue = rows * 2 - 1;
+		int currentRowValue;
+		int blankSpaceCheck;
+		int cnt1 = rows;
+		while (cnt1 > 0) {
+			currentRowValue = cnt1 * 2 - 1;
+			blankSpaceCheck = (largestRowValue - currentRowValue)/2;
+			int cnt2 = 0;
+			while (cnt2 < dog.length) {
+				int cnt3 = largestRowValue;
+				if (isDiamond) {
+					System.out.print(blankSpace);
+				}
+				while (cnt3 > 0) {
+					if (cnt3 <= blankSpaceCheck || cnt3 > largestRowValue - blankSpaceCheck) {
+						System.out.print(blankSpace);
+					}else {
+						System.out.print(dog[cnt2]);
+					}
+					cnt3--;
+				}
+				System.out.println();
+				cnt2++;
+			}
+			System.out.println();
+			cnt1--;
+		}
+	}//end pyramidDown
+	
+	
+	public static void diamond(int rows) {
+		isDiamond = true;
+		pyramid((rows+1)/2);
+		pyramidDown((rows-1)/2);
+	}//end diamond
+	
+	
+	public static int sigRowArrWays(int rows) {
+		int product = 1;
+		if (rows == 0) {
+			return rows;
+		}
+		for (int i = rows; i > 0; i--) {
+			product *= i; 
+		}
+		return product;
+	}//end sigRowArrWays
+}//end class

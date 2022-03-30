@@ -1,0 +1,21 @@
+
+public class funWithLoops {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Loop Fun");
+		//loop types = while, for, do while
+		
+		int cnt = 0;
+		while (cnt<5) {
+			cnt++;
+			System.out.println(cnt);
+		}
+		System.out.println();
+		while (cnt>0) {
+			System.out.println(cnt);
+			cnt--;
+		}
+	}
+
+}
